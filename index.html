@@ -151,34 +151,6 @@
 <script>
 const SHEET_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSPhjzEy-zIQ5uwHmyA2ZGtc3RpuaGsQQqWhoRHivetBg1Th-p1utTCbbU1vhkIuFyAgRTC3M-XcdwA/pub?output=csv";
 
-const legacyBooks = [
-  { asin: "B00LW3YISO", title: "Life on the Edge", author: "Jim Al-Khalili & Johnjoe McFadden",
-    amazon: "https://www.amazon.co.uk/dp/B00LW3YISO", goodreads: "https://www.goodreads.com/search?q=Life+on+the+Edge+Al-Khalili+McFadden",
-    cover: "https://m.media-amazon.com/images/P/B00LW3YISO.01.LZZZZZZZ.jpg",
-    summary: "An introduction to quantum biology — how quantum effects like tunnelling and coherence may underpin smell, photosynthesis, bird navigation, and possibly the origin of life itself.",
-    goodreadsRating: "", categories: ["Physics", "Biology"] },
-  { asin: "B00IUPM65E", title: "Sex, Drugs & Rock 'n' Roll", author: "Zoe Cormier",
-    amazon: "https://www.amazon.co.uk/dp/B00IUPM65E", goodreads: "https://www.goodreads.com/search?q=Sex+Drugs+Rock+n+Roll+Zoe+Cormier",
-    cover: "https://m.media-amazon.com/images/P/B00IUPM65E.01.LZZZZZZZ.jpg",
-    summary: "A science journalist looks at the neuroscience and evolutionary biology behind hedonism itself — why sex, intoxication, and risk-taking feel so good, and what science says they're for.",
-    goodreadsRating: "", categories: ["Science", "Biology"] },
-  { asin: "B00B3GMOIQ", title: "Supernormal", author: "Dean Radin",
-    amazon: "https://www.amazon.co.uk/dp/B00B3GMOIQ", goodreads: "https://www.goodreads.com/search?q=Supernormal+Dean+Radin",
-    cover: "https://m.media-amazon.com/images/P/B00B3GMOIQ.01.LZZZZZZZ.jpg",
-    summary: "A parapsychology researcher argues that yogic claims of extraordinary abilities — telepathy, precognition — deserve serious scientific scrutiny, drawing on decades of his own lab research.",
-    goodreadsRating: "", categories: ["Consciousness", "Science"] },
-  { asin: "B00K7ED54M", title: "Sapiens: A Brief History of Humankind", author: "Yuval Noah Harari",
-    amazon: "https://www.amazon.co.uk/dp/B00K7ED54M", goodreads: "https://www.goodreads.com/work/editions/18962767-sapiens-a-brief-history-of-humankind",
-    cover: "https://m.media-amazon.com/images/P/B00K7ED54M.01.LZZZZZZZ.jpg",
-    summary: "A sweeping account of how Homo sapiens came to dominate the planet — from the Cognitive Revolution through agriculture, empire, and capitalism, to the threshold of a new kind of being.",
-    goodreadsRating: "4.53 / 5 (Goodreads, 22,500+ ratings)", categories: ["History", "Anthropology"] },
-  { asin: "B006EBA1JO", title: "The Death of King Arthur", author: "Simon Armitage (translator)",
-    amazon: "https://www.amazon.co.uk/dp/B006EBA1JO", goodreads: "https://www.goodreads.com/search?q=The+Death+of+King+Arthur+Simon+Armitage",
-    cover: "https://m.media-amazon.com/images/P/B006EBA1JO.01.LZZZZZZZ.jpg",
-    summary: "Poet Simon Armitage's modern-English verse translation of the anonymous 14th-century alliterative poem recounting Arthur's final campaign and betrayal.",
-    goodreadsRating: "", categories: ["Poetry", "History"] }
-];
-
 function parseCSV(text){
   const rows = []; let row = [], field = '', inQuotes = false;
   for(let i = 0; i < text.length; i++){
@@ -225,7 +197,7 @@ const grid = document.getElementById('grid');
 
 async function init(){
   const sheetBooks = await fetchSheetBooks();
-  const books = sheetBooks.concat(legacyBooks);
+      const books = sheetBooks;
   document.getElementById('count-flag').textContent = books.length + ' titles catalogued';
 
   books.forEach((b) => {
