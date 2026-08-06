@@ -60,6 +60,13 @@
     font-family: ui-monospace, Menlo, Consolas, monospace; font-size: 0.78rem; background: var(--sage);
     color: #fff; padding: 3px 8px; margin-bottom: 10px; display: inline-block; min-width: 40px;
   }
+  .read-flag{
+    font-family: ui-monospace, Menlo, Consolas, monospace; font-size: 0.7rem; text-transform: uppercase;
+    letter-spacing: 0.06em; padding: 2px 8px; border: 1px solid var(--line); margin-left: 8px;
+  }
+  .read-flag.yes{ border-color: var(--sage); color: var(--sage); }
+  .read-flag.no{ border-color: var(--stamp); color: var(--stamp); }
+  }
   .controls{ max-width: 900px; margin: 0 auto 20px; }
   .search-box{
     width:100%; font-family: Georgia, serif; font-size: 1rem; padding: 10px 14px;
@@ -228,11 +235,14 @@ async function init(){
     details.dataset.author = (b.author || '').toLowerCase();
     details.dataset.categories = (b.categories || []).join('|').toLowerCase();
 
+    const readVal = (b.read || '').trim().toLowerCase();
+    const readBadge = readVal ? `<span class="read-flag ${readVal === 'yes' ? 'yes' : 'no'}">${readVal === 'yes' ? 'Read' : 'Unread'}</span>` : '';
+
     const summaryEl = document.createElement('summary');
     summaryEl.innerHTML = `
       <span class="callnum">${b.asin || ''}</span>
       <span class="title-author">
-        <div class="title">${b.title || ''}</div>
+        <div class="title">${b.title || ''}${readBadge}</div>
         <div class="author">${b.author || ''}</div>
         <div class="card-cats">${(b.categories || []).map(c => `<span>${c}</span>`).join('')}</div>
       </span>
@@ -263,6 +273,7 @@ async function init(){
         ${b.goodreadsRating ? `<div class="rating-line">${b.goodreadsRating}</div>` : ''}
         ${expandBox('About the author', b.authorBio)}
         ${expandBox('Summary', b.summary)}
+        ${expandBox('Reading notes', b.notes)}
         <div class="links">
           <a href="${b.amazon}" target="_blank" rel="noopener">Amazon &rarr;</a>
           <a href="${b.goodreads}" target="_blank" rel="noopener">Goodreads &rarr;</a>
