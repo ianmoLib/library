@@ -197,6 +197,8 @@ const grid = document.getElementById('grid');
 async function init(){
   const sheetBooks = await fetchSheetBooks();
       const books = sheetBooks;
+  function parseUKDate(d){ if(!d) return null; const parts = String(d).trim().split('/'); if(parts.length !== 3) return null; const day = parseInt(parts[0], 10), month = parseInt(parts[1], 10), year = parseInt(parts[2], 10); if(!day || !month || !year) return null; return new Date(year, month - 1, day); }
+  books.sort((a, b) => { const da = parseUKDate(a.purchaseDate); const db = parseUKDate(b.purchaseDate); if(da && db) return db - da; if(da && !db) return -1; if(!da && db) return 1; return (a.title || '').localeCompare(b.title || ''); });
   document.getElementById('count-flag').textContent = books.length + ' titles catalogued';
 
   books.forEach((b) => {
