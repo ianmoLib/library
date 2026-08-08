@@ -206,6 +206,16 @@ async function fetchSheetBooks(){
   }
 }
 
+function renderNotesMarkdown(text){
+  const paragraphs = text.trim().split(/\n\s*\n/);
+  return paragraphs.map(p =>
+    p.split('\n').map(line => line.trim()
+      .replace(/\*\*(.+?)\*\*/g, '<b>$1</b>')
+      .replace(/\*(.+?)\*/g, '<i>$1</i>')
+    ).join('<br>')
+  ).join('<br><br>');
+}
+
 const grid = document.getElementById('grid');
 
 async function init(){
@@ -258,16 +268,6 @@ async function init(){
       const body = isFileRef ? 'Loading notes\u2026' : trimmed;
       const srcAttr = isFileRef ? ` data-notes-src="${trimmed}"` : '';
       return `<div class="expand-box"><label>Reading notes</label><p class="expand-text" id="${id}"${srcAttr}>${body}</p><button class="expand-btn" data-target="${id}">Show more</button></div>`;
-    }
-
-    function renderNotesMarkdown(text){
-      const paragraphs = text.trim().split(/\n\s*\n/);
-      return paragraphs.map(p =>
-        p.split('\n').map(line => line.trim()
-          .replace(/\*\*(.+?)\*\*/g, '<b>$1</b>')
-          .replace(/\*(.+?)\*/g, '<i>$1</i>')
-        ).join('<br>')
-      ).join('<br><br>');
     }
 
     const detail = document.createElement('div');
