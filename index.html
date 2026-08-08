@@ -60,13 +60,25 @@
     font-family: ui-monospace, Menlo, Consolas, monospace; font-size: 0.78rem; background: var(--sage);
     color: #fff; padding: 3px 8px; margin-bottom: 10px; display: inline-block; min-width: 40px;
   }
-  .read-flag{
+  .notes-flag{
     font-family: ui-monospace, Menlo, Consolas, monospace; font-size: 0.7rem; text-transform: uppercase;
-    letter-spacing: 0.06em; padding: 2px 8px; border: 1px solid var(--line); margin-left: 8px;
+    letter-spacing: 0.06em; padding: 2px 8px; border: 1px solid var(--sage); color: var(--sage); margin-left: 8px;
   }
-  .read-flag.yes{ border-color: var(--sage); color: var(--sage); }
-  .read-flag.no{ border-color: var(--stamp); color: var(--stamp); }
+  .card-meta-top{
+    font-family: ui-monospace, Menlo, Consolas, monospace; font-size: 0.72rem; color: rgba(28,43,57,0.55);
+    margin-top: 3px;
+  }
     .controls{ max-width: 900px; margin: 0 auto 20px; }
+  .start-state{
+    max-width:900px; margin: 0 auto 16px; font-family: ui-monospace, Menlo, Consolas, monospace;
+    font-size: 0.85rem; color: rgba(28,43,57,0.6); padding: 4px 4px 20px;
+  }
+  .show-all-btn{
+    font-family: ui-monospace, Menlo, Consolas, monospace; font-size: 0.72rem; text-transform: uppercase;
+    letter-spacing: 0.06em; border: 1px solid var(--stamp); color: var(--stamp); background: transparent;
+    padding: 5px 10px; cursor: pointer; margin-left: 6px;
+  }
+  .show-all-btn:hover{ background: var(--stamp); color: #fff; }
   .search-box{
     width:100%; font-family: Georgia, serif; font-size: 1rem; padding: 10px 14px;
     border: 1px solid var(--ink); background: #fffdf8; margin-bottom: 12px;
@@ -144,6 +156,8 @@
     <div class="cat-filters" id="cat-filters"></div>
   </div>
 
+  <div class="start-state" id="start-state">Search above, pick a category, or <button class="show-all-btn" id="show-all-btn">Show all</button></div>
+
   <div class="grid" id="grid"></div>
   <div class="no-results" id="no-results">No books match — try a different search or clear the category filter.</div>
 
@@ -208,15 +222,19 @@ async function init(){
     details.dataset.author = (b.author || '').toLowerCase();
     details.dataset.categories = (b.categories || []).join('|').toLowerCase();
 
-    const readVal = (b.read || '').trim().toLowerCase();
-    const readBadge = readVal ? `<span class="read-flag ${readVal === 'yes' ? 'yes' : 'no'}">${readVal === 'yes' ? 'Read' : 'Unread'}</span>` : '';
+    const notesBadge = b.notes ? `<span class="notes-flag">Notes</span>` : '';
+    const topMetaParts = [];
+    if(b.purchaseDate) topMetaParts.push(`Purchased ${b.purchaseDate}`);
+    if(b.source) topMetaParts.push(b.source);
+    const topMetaLine = topMetaParts.length ? `<div class="card-meta-top">${topMetaParts.join(' &middot; ')}</div>` : '';
 
     const summaryEl = document.createElement('summary');
     summaryEl.innerHTML = `
       <span class="callnum">${b.asin || ''}</span>
       <span class="title-author">
-        <div class="title">${b.title || ''}${readBadge}</div>
+        <div class="title">${b.title || ''}${notesBadge}</div>
         <div class="author">${b.author || ''}</div>
+        ${topMetaLine}
         <div class="card-cats">${(b.categories || []).map(c => `<span>${c}</span>`).join('')}</div>
       </span>
       <span class="chevron">&#9656;</span>
@@ -224,8 +242,6 @@ async function init(){
 
     const meta = [];
     if(b.pubDate) meta.push(`<span class="meta-item"><b>Published:</b> ${b.pubDate}</span>`);
-    if(b.purchaseDate) meta.push(`<span class="meta-item"><b>Purchased:</b> ${b.purchaseDate}</span>`);
-    if(b.source) meta.push(`<span class="meta-item"><b>Source:</b> ${b.source}</span>`);
     const metaRow = meta.length ? `<div class="meta-line">${meta.join('')}</div>` : '';
 
     function expandBox(label, text){
@@ -270,7 +286,10 @@ async function init(){
   const filterBar = document.getElementById('cat-filters');
   const searchBox = document.getElementById('search-box');
   const noResults = document.getElementById('no-results');
+  const startState = document.getElementById('start-state');
+  const showAllBtn = document.getElementById('show-all-btn');
   let activeCat = null;
+  let showAll = false;
 
   function allCategories(){
     const set = new Set();
@@ -289,18 +308,23 @@ async function init(){
   }
   function applyFilters(){
     const q = searchBox.value.trim().toLowerCase();
+    const active = showAll || !!q || !!activeCat;
     let visible = 0;
     document.querySelectorAll('.card').forEach(card => {
+      if(!active){ card.style.display = 'none'; return; }
       const matchesText = !q || card.dataset.title.includes(q) || card.dataset.author.includes(q);
       const matchesCat = !activeCat || (card.dataset.categories || '').includes(activeCat.toLowerCase());
       const show = matchesText && matchesCat;
       card.style.display = show ? '' : 'none';
       if(show) visible++;
     });
-    noResults.style.display = visible === 0 ? 'block' : 'none';
+    startState.style.display = active ? 'none' : 'block';
+    noResults.style.display = (active && visible === 0) ? 'block' : 'none';
   }
   searchBox.addEventListener('input', applyFilters);
+  showAllBtn.addEventListener('click', () => { showAll = true; applyFilters(); });
   renderChips();
+  applyFilters();
 }
 
 init();
