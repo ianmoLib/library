@@ -250,6 +250,26 @@ async function init(){
       return `<div class="expand-box"><label>${label}</label><p class="expand-text" id="${id}">${text}</p><button class="expand-btn" data-target="${id}">Show more</button></div>`;
     }
 
+    function notesExpandBox(text){
+      if(!text) return '';
+      const trimmed = text.trim();
+      const isFileRef = /^notes\/[\w.-]+\.md$/i.test(trimmed);
+      const id = 'eb-' + Math.random().toString(36).slice(2,9);
+      const body = isFileRef ? 'Loading notes\u2026' : trimmed;
+      const srcAttr = isFileRef ? ` data-notes-src="${trimmed}"` : '';
+      return `<div class="expand-box"><label>Reading notes</label><p class="expand-text" id="${id}"${srcAttr}>${body}</p><button class="expand-btn" data-target="${id}">Show more</button></div>`;
+    }
+
+    function renderNotesMarkdown(text){
+      const paragraphs = text.trim().split(/\n\s*\n/);
+      return paragraphs.map(p =>
+        p.split('\n').map(line => line.trim()
+          .replace(/\*\*(.+?)\*\*/g, '<b>$1</b>')
+          .replace(/\*(.+?)\*/g, '<i>$1</i>')
+        ).join('<br>')
+      ).join('<br><br>');
+    }
+
     const detail = document.createElement('div');
     detail.className = 'detail';
     detail.innerHTML = `
@@ -262,7 +282,7 @@ async function init(){
         ${b.goodreadsRating ? `<div class="rating-line">${b.goodreadsRating}</div>` : ''}
         ${expandBox('About the author', b.authorBio)}
         ${expandBox('Summary', b.summary)}
-        ${expandBox('Reading notes', b.notes)}
+        ${notesExpandBox(b.notes)}
         <div class="links">
           <a href="${b.amazon}" target="_blank" rel="noopener">Amazon &rarr;</a>
           <a href="${b.goodreads}" target="_blank" rel="noopener">Goodreads &rarr;</a>
@@ -273,6 +293,17 @@ async function init(){
     details.appendChild(summaryEl);
     details.appendChild(detail);
     grid.appendChild(details);
+  });
+
+  document.querySelectorAll('[data-notes-src]').forEach(async (el) => {
+    try{
+      const res = await fetch(el.dataset.notesSrc);
+      if(!res.ok) throw new Error('HTTP ' + res.status);
+      const text = await res.text();
+      el.innerHTML = renderNotesMarkdown(text);
+    }catch(e){
+      el.textContent = "Couldn't load notes right now.";
+    }
   });
 
   document.querySelectorAll('.expand-btn').forEach(btn => {
