@@ -274,7 +274,7 @@ async function init(){
     detail.className = 'detail';
     detail.innerHTML = `
       <div class="cover">
-        <img src="${b.cover || ''}" alt="${b.title || ''} cover"
+                <img src="covers/${b.asin || ''}.jpg" alt="${b.title || ''} cover"
              onerror="this.parentNode.innerHTML='<div class=&quot;noimg&quot;>No cover found</div>'">
       </div>
       <div class="info">
