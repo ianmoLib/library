@@ -344,7 +344,7 @@ async function init(){
     document.querySelectorAll('.card').forEach(card => {
       if(!active){ card.style.display = 'none'; return; }
       const matchesText = !q || card.dataset.title.includes(q) || card.dataset.author.includes(q);
-      const matchesCat = !activeCat || (card.dataset.categories || '').includes(activeCat.toLowerCase());
+              const matchesCat = !activeCat || (card.dataset.categories || '').split('|').includes(activeCat.toLowerCase());
       const show = matchesText && matchesCat;
       card.style.display = show ? '' : 'none';
       if(show) visible++;
