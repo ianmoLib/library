@@ -296,7 +296,7 @@ async function init(){
   });
 
   document.querySelectorAll('[data-notes-src]').forEach(async (el) => {
-    document.querySelectorAll('[data-notes-src]').forEach(async (el) => {
+    document.querySelectorAll('[data-notes-src]').forEach(async (el) => {   // ← duplicate line, shouldn't be here
     try{
       const res = await fetch(el.dataset.notesSrc);
       if(!res.ok) throw new Error('HTTP ' + res.status);
