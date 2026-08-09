@@ -296,13 +296,16 @@ async function init(){
   });
 
   document.querySelectorAll('[data-notes-src]').forEach(async (el) => {
+    document.querySelectorAll('[data-notes-src]').forEach(async (el) => {
     try{
       const res = await fetch(el.dataset.notesSrc);
       if(!res.ok) throw new Error('HTTP ' + res.status);
       const text = await res.text();
+      if(!text.trim()) throw new Error('empty notes file');
       el.innerHTML = renderNotesMarkdown(text);
     }catch(e){
-      el.textContent = "Couldn't load notes right now.";
+      const box = el.closest('.expand-box');
+      if(box) box.remove();
     }
   });
 
