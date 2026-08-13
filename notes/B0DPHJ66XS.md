@@ -1,0 +1,3 @@
+**3/4/25**
+
+Weiss on Boye — a poet who killed herself. Language based on metaphors can only haphazardly set out our position on questions of the day. In the hunting ground of the heart we are alone. We export morals and ethics onto the plane of external relationships, giving our actions the appearance of responsibility — when it goes wrong we blame others. There is no realm left for us to come together as helpless beings, unknowingly martyred, mutilated.

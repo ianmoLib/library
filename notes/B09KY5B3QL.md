@@ -1,0 +1,3 @@
+**11/10/25**
+
+So Iain McGilchrist says the left brain rules up reasons for things after the fact. I couldn't find a broom and WhatsApped M to ask where it was; I then found it. She asked why I had to ask, and how I then suddenly found it. My response: "It had been hiding but came out as it knew she would know where it was, so no point in hiding." This just came out, and I reflected on it as an explanation.
