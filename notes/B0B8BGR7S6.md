@@ -90,3 +90,7 @@ We are what our predictive brain has built — a model of reality. Everything we
 We train new minds via public language, writing systems, and cultural transmission, to use the collective wisdom of previous generations.
 
 Our minds are a seething, swirling ocean of predictions continually orchestrated by brain, body & world. As we continue to build our world, we are building our minds.
+
+**29/8/25**
+
+"It's garments all the way down," after Avicenna said arms — if they could be taken off and put back on, they'd be just like garments to consciousness. Can consciousness be extended, or is it all in the mind? He thinks not.
