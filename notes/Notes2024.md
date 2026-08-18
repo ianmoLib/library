@@ -1,6 +1,6 @@
 # Notes 2024 — Catchall
 
-## 6/1/24
+## 6/1/24  
 Have finished McGilchrist, apart from appendices, but been thinking about the Vulnerability Paradox after talking with Brian from biodanza - deciding to be happy at pre-Christmas get-together. What is happiness, and is it overrated - is it just Soma of *1984*?
 
 Societies classified via Geert Hofstede by:
