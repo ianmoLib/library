@@ -1,3 +1,27 @@
+## 24/10/24 — Pipe Bending
+
+**Doug way — 90°**
+15mm: mark pipe 70mm less than *a*. [diagram: right-angle bend, leg length *a*]
+Insert pipe so mark at start of tube.
+
+**Max way — 2 x 45°**
+15mm pipe [diagram: offset bend with dimension *b*]: mark at *b* length. Insert pipe so mark between 1&5 of 15 and bend to 45°, then place pipe on straight edge and mark *c* where *c* is the vertical change. [diagram: offset with dimension *c*]. Place *c* between 1&5 on bender. Checking by eye in same plane. Bend and check for parallel by eye.
+
+**Bits needed**: La-Co Regular soldering Flux Paste; Gas UN3161.
+
+**Dressing a radiator.** Roger **Bellby**[?] on YouTube is a good source. Need radiator, bottom fittings in a box together with thermostat, 2 top fixings - one is for radiator key. May need large radiator key, 200/250mm adj. spanner.
+
+**New Rad**: Take off 4 connectors & check visually whole radiator inc. pinky finger into each of the holes. Connect 2 top things with bleeding - one on-night is possible, taking account of location. No need for any extra product as flexible connectors are adequate. Put in 2 rad tails using 16-21 turns of plumber's tape. Connect to this 2 connectors from the box which have the small crushable rings.
+
+## 13/11/24 — Errors made on radiator
+1. Very hard to bend 22mm pipe.
+2. Forgot to wirewool some joints.
+3. Didn't place olive correctly on radiator (not flame).
+4. Didn't understand that pipe heat is used to melt solder.
+5. Need to make note on how to joint plastic.
+6. Need to think through and not rush.
+7. Don't forget the heat mat near wall.
+8. You can't get out on the bend.
 **7/5/25 — Fixing a sink**
 
 1. Connect sink in place with bolt to the wall — the pedestal is only to hide the pipes, not for support. Drill into the wall and screw in 2 bolts, tightened in the middle with a spanner. Fixings should come with the sink.
