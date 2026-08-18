@@ -22,6 +22,8 @@ Insert pipe so mark at start of tube.
 6. Need to think through and not rush.
 7. Don't forget the heat mat near wall.
 8. You can't get out on the bend.
+
+
 **7/5/25 — Fixing a sink**
 
 1. Connect sink in place with bolt to the wall — the pedestal is only to hide the pipes, not for support. Drill into the wall and screw in 2 bolts, tightened in the middle with a spanner. Fixings should come with the sink.
