@@ -149,11 +149,11 @@ text-decoration: none; border-bottom: 1px solid var(--stamp); padding-bottom: 1p
 
 <div class="drawer-label">
 <h1>Ian's Library</h1>
-<span class="sub">Live from Google Sheet</span>
+<span class="sub">Live from NAS Library</span>
 </div>
 <div class="meta-row">
 <span id="count-flag">Loading…</span>
-<span>Editing happens in the Sheet</span>
+<span>Editing happens via the library MCP</span>
 </div>
 <div class="status-banner" id="status-banner"></div>
 
@@ -168,49 +168,36 @@ text-decoration: none; border-bottom: 1px solid var(--stamp); padding-bottom: 1p
 <div class="no-results" id="no-results">No books match — try a different search or clear the category filter.</div>
 
 <script>
-const SHEET_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSPhjzEy-zIQ5uwHmyA2ZGtc3RpuaGsQQqWhoRHivetBg1Th-p1utTCbbU1vhkIuFyAgRTC3M-XcdwA/pub?output=csv";
+const NAS_BOOKS_URL = "https://ds420.tailc2eb.ts.net/books";
 
-function parseCSV(text){
-const rows = []; let row = [], field = '', inQuotes = false;
-for(let i = 0; i < text.length; i++){
-const c = text[i], next = text[i+1];
-if(inQuotes){
-if(c === '"' && next === '"'){ field += '"'; i++; }
-else if(c === '"'){ inQuotes = false; }
-else { field += c; }
-} else {
-if(c === '"'){ inQuotes = true; }
-else if(c === ','){ row.push(field); field = ''; }
-else if(c === '\n' || c === '\r'){
-if(field.length || row.length){ row.push(field); rows.push(row); row = []; field = ''; }
-if(c === '\r' && next === '\n') i++;
-} else { field += c; }
-}
-}
-if(field.length || row.length){ row.push(field); rows.push(row); }
-return rows;
-}
-
-async function fetchSheetBooks(){
-try{
-const res = await fetch(SHEET_CSV_URL);
-if(!res.ok) throw new Error('HTTP ' + res.status);
-const text = await res.text();
-const rows = parseCSV(text);
-const header = rows[0].map(h => h.trim());
-return rows.slice(1).filter(r => r.length > 1 && r[0]).map(r => {
-const obj = {};
-header.forEach((h, i) => { if(h) obj[h] = (r[i] || '').trim(); });
-obj.categories = obj.categories ? obj.categories.split('|').filter(Boolean) : [];
-return obj;
-});
-}catch(e){
-console.error('Could not load live Sheet data', e);
-document.getElementById('status-banner').textContent = "Couldn't reach the live Sheet right now — check your connection.";
-document.getElementById('status-banner').classList.add('show');
-return [];
-}
-}
+  async function fetchSheetBooks(){
+  try{
+  const res = await fetch(NAS_BOOKS_URL);
+    if(!res.ok) throw new Error('HTTP ' + res.status);
+    const rows = await res.json();
+  return rows.map(r => ({
+  asin: r.asin || '',
+    title: r.title || '',
+  author: r.author || '',
+  amazon: r.amazon || '',
+  goodreads: r.goodreads || '',
+  cover: r.cover || '',
+    pubDate: r.pub_date || '',
+    purchaseDate: r.purchase_date || '',
+    source: r.source || '',
+    authorBio: r.author_bio || '',
+    summary: r.summary || '',
+    goodreadsRating: r.goodreads_rating || '',
+    notes: r.notes || '',
+    categories: r.categories ? String(r.categories).split('|').filter(Boolean) : []
+  }));
+  }catch(e){
+    console.error('Could not load live NAS data', e);
+    document.getElementById('status-banner').textContent = "Couldn't reach the library server right now — check your connection.";
+    document.getElementById('status-banner').classList.add('show');
+    return [];
+  }
+  }
 
 function inlineMd(s){
 return s
